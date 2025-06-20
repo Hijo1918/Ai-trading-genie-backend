@@ -1,8 +1,21 @@
-FROM node:20
+FROM node:20-alpine as build
 
 WORKDIR /app
-COPY . .
+COPY package*.json ./
+RUN npm ci
 
-RUN npm install
-EXPOSE 3000
-CMD ["npm", "start"]
+COPY . .
+RUN npm run build
+
+# Production image
+FROM node:20-alpine
+
+RUN npm install -g serve
+
+WORKDIR /app
+
+COPY --from=build /app/build ./build
+
+EXPOSE 8080
+
+CMD ["serve", "-s", "build", "-l", "8080"]
