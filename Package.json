@@ -42,4 +42,7 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.0.0"
   }
+}"scripts": {
+  "build": "echo 'No build step needed'",
+  "dev": "netlify dev"
 }
