@@ -1,0 +1,8 @@
+- name: Change working directory
+  run: cd path/to/your/project
+
+- name: Install dependencies
+  run: npm install
+
+- name: Run gulp
+  run: gulp
