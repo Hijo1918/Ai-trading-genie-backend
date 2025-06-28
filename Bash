@@ -1,8 +1,0 @@
-gcloud run deploy aitradinggenie-backend \
-  --image $IMAGE_NAME \
-  --platform managed \
-  --region us-central1 \
-  --allow-unauthenticated \
-  --set-env-vars MONGO_URI="your_mongo_uri",JWT_SECRET="your_jwt_secret",CORS_ORIGIN="https://yourfrontendurl" \
-  --port 5000
-npm install -g netlify-cli
