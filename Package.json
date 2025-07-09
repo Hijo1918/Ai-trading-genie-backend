@@ -41,4 +41,7 @@
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.0.0"
-  
+  "scripts": {
+  "check:build": "node -e \"require('fs').existsSync('dist/main.js') || require('child_process').execSync('npm run build', {stdio: 'inherit'})\"",
+  "start": "npm run check:build && node dist/main.js"
+}
