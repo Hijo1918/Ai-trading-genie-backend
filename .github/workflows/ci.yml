@@ -1,0 +1,55 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: testdb
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    env:
+      DATABASE_HOST: 127.0.0.1
+      DATABASE_PORT: 3306
+      DATABASE_USER: root
+      DATABASE_PASSWORD: root
+      DATABASE_NAME: testdb
+      JWT_SECRET: githubci
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Compile TypeScript
+        run: npm run build
+
+      - name: Run TypeORM Migrations
+        run: npm run typeorm:migration:run
+
+      # Optional - Uncomment if you add test scripts
+      # - name: Run tests
+      #   run: npm test
