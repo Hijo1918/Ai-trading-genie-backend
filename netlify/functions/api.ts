@@ -22,3 +22,9 @@ export const handler: Handler = async (event, context) => {
   }
   return cachedHandler(event, context);
 };
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
+const packageJson = JSON.parse(
+  readFileSync(join(__dirname, '../../package.json'), 'utf8')
+);
