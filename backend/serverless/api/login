@@ -1,0 +1,27 @@
+document.getElementById("login-form").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  const res = await fetch("/api/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+
+  const data = await res.json();
+
+  const messageBox = document.getElementById("message");
+
+  if (res.ok) {
+    messageBox.textContent = "Login successful! Redirecting...";
+    messageBox.classList.remove("text-red-400");
+    messageBox.classList.add("text-green-400");
+    setTimeout(() => {
+      window.location.href = "dashboard.html";
+    }, 1000);
+  } else {
+    messageBox.textContent = data.message || "Login failed.";
+  }
+});
